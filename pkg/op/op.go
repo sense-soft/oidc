@@ -12,8 +12,8 @@ import (
 	"golang.org/x/text/language"
 	"gopkg.in/square/go-jose.v2"
 
-	httphelper "github.com/caos/oidc/pkg/http"
-	"github.com/caos/oidc/pkg/oidc"
+	httphelper "github.com/sense-soft/oidc/pkg/http"
+	"github.com/sense-soft/oidc/pkg/oidc"
 )
 
 const (

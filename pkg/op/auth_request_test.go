@@ -13,10 +13,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	httphelper "github.com/caos/oidc/pkg/http"
-	"github.com/caos/oidc/pkg/oidc"
-	"github.com/caos/oidc/pkg/op"
-	"github.com/caos/oidc/pkg/op/mock"
+	httphelper "github.com/sense-soft/oidc/pkg/http"
+	"github.com/sense-soft/oidc/pkg/oidc"
+	"github.com/sense-soft/oidc/pkg/op"
+	"github.com/sense-soft/oidc/pkg/op/mock"
 )
 
 //

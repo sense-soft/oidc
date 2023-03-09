@@ -1,7 +1,7 @@
 package rp
 
 import (
-	"github.com/caos/oidc/pkg/oidc/grants/tokenexchange"
+    "github.com/sense-soft/oidc/pkg/oidc/grants/tokenexchange"
 )
 
 //DelegationTokenRequest is an implementation of TokenExchangeRequest
@@ -9,5 +9,5 @@ import (
 //"urn:ietf:params:oauth:token-type:access_token" actor token for an
 //"urn:ietf:params:oauth:token-type:access_token" delegation token
 func DelegationTokenRequest(subjectToken string, opts ...tokenexchange.TokenExchangeOption) *tokenexchange.TokenExchangeRequest {
-	return tokenexchange.NewTokenExchangeRequest(subjectToken, tokenexchange.AccessTokenType, opts...)
+    return tokenexchange.NewTokenExchangeRequest(subjectToken, tokenexchange.AccessTokenType, opts...)
 }

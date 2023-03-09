@@ -1,26 +1,26 @@
 package op
 
 import (
-	"github.com/caos/oidc/pkg/crypto"
+    "github.com/sense-soft/oidc/pkg/crypto"
 )
 
 type Crypto interface {
-	Encrypt(string) (string, error)
-	Decrypt(string) (string, error)
+    Encrypt(string) (string, error)
+    Decrypt(string) (string, error)
 }
 
 type aesCrypto struct {
-	key string
+    key string
 }
 
 func NewAESCrypto(key [32]byte) Crypto {
-	return &aesCrypto{key: string(key[:32])}
+    return &aesCrypto{key: string(key[:32])}
 }
 
 func (c *aesCrypto) Encrypt(s string) (string, error) {
-	return crypto.EncryptAES(s, c.key)
+    return crypto.EncryptAES(s, c.key)
 }
 
 func (c *aesCrypto) Decrypt(s string) (string, error) {
-	return crypto.DecryptAES(s, c.key)
+    return crypto.DecryptAES(s, c.key)
 }

@@ -23,6 +23,8 @@ func GetHashAlgorithm(sigAlgorithm jose.SignatureAlgorithm) (hash.Hash, error) {
 		return sha512.New384(), nil
 	case jose.RS512, jose.ES512, jose.PS512:
 		return sha512.New(), nil
+	case jose.HS256:
+		return sha256.New(), nil
 	default:
 		return nil, fmt.Errorf("%w: %q", ErrUnsupportedAlgorithm, sigAlgorithm)
 	}

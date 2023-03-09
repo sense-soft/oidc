@@ -19,7 +19,7 @@ var (
 	ErrKeyNone     = errors.New("no possible keys matches")
 )
 
-//KeySet represents a set of JSON Web Keys
+// KeySet represents a set of JSON Web Keys
 // - remotely fetch via discovery and jwks_uri -> `remoteKeySet`
 // - held by the OP itself in storage -> `openIDKeySet`
 // - dynamically aggregated by request for OAuth JWT Profile Assertion -> `jwtProfileKeySet`
@@ -28,7 +28,7 @@ type KeySet interface {
 	VerifySignature(ctx context.Context, jws *jose.JSONWebSignature) (payload []byte, err error)
 }
 
-//GetKeyIDAndAlg returns the `kid` and `alg` claim from the JWS header
+// GetKeyIDAndAlg returns the `kid` and `alg` claim from the JWS header
 func GetKeyIDAndAlg(jws *jose.JSONWebSignature) (string, string) {
 	keyID := ""
 	alg := ""
@@ -40,24 +40,24 @@ func GetKeyIDAndAlg(jws *jose.JSONWebSignature) (string, string) {
 	return keyID, alg
 }
 
-//FindKey searches the given JSON Web Keys for the requested key ID, usage and key type
+// FindKey searches the given JSON Web Keys for the requested key ID, usage and key type
 //
-//will return the key immediately if matches exact (id, usage, type)
+// will return the key immediately if matches exact (id, usage, type)
 //
-//will return false none or multiple match
+// will return false none or multiple match
 //
-//deprecated: use FindMatchingKey which will return an error (more specific) instead of just a bool
-//moved implementation already to FindMatchingKey
+// deprecated: use FindMatchingKey which will return an error (more specific) instead of just a bool
+// moved implementation already to FindMatchingKey
 func FindKey(keyID, use, expectedAlg string, keys ...jose.JSONWebKey) (jose.JSONWebKey, bool) {
 	key, err := FindMatchingKey(keyID, use, expectedAlg, keys...)
 	return key, err == nil
 }
 
-//FindMatchingKey searches the given JSON Web Keys for the requested key ID, usage and key type
+// FindMatchingKey searches the given JSON Web Keys for the requested key ID, usage and key type
 //
-//will return the key immediately if matches exact (id, usage, type)
+// will return the key immediately if matches exact (id, usage, type)
 //
-//will return a specific error if none (ErrKeyNone) or multiple (ErrKeyMultiple) match
+// will return a specific error if none (ErrKeyNone) or multiple (ErrKeyMultiple) match
 func FindMatchingKey(keyID, use, expectedAlg string, keys ...jose.JSONWebKey) (key jose.JSONWebKey, err error) {
 	var validKeys []jose.JSONWebKey
 	for _, k := range keys {
@@ -89,6 +89,9 @@ func algToKeyType(key interface{}, alg string) bool {
 		return ok
 	case 'O':
 		_, ok := key.(*ed25519.PublicKey)
+		return ok
+	case 'H':
+		_, ok := key.([]uint8)
 		return ok
 	default:
 		return false

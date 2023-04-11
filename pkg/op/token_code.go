@@ -2,10 +2,7 @@ package op
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
-	"reflect"
-	"strings"
 
 	httphelper "github.com/sense-soft/oidc/pkg/http"
 	"github.com/sense-soft/oidc/pkg/oidc"
@@ -32,33 +29,7 @@ func CodeExchange(w http.ResponseWriter, r *http.Request, exchanger Exchanger) {
 		RequestError(w, r, err)
 		return
 	}
-	marshalJSONWithStatus(w, resp, http.StatusOK, GetHost(r))
-	//httphelper.MarshalJSON(w, resp)
-}
-
-//获取当前访问的Host
-
-func GetHost(r *http.Request) (url string) {
-	scheme := "http://"
-	if r.TLS != nil || r.Header.Get("X-Forwarded-Proto") == "https" {
-		scheme = "https://"
-	}
-	return strings.Join([]string{scheme, r.Host}, "")
-}
-
-func marshalJSONWithStatus(w http.ResponseWriter, i interface{}, status int, url string) {
-	w.Header().Set("content-type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", url)
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.WriteHeader(status)
-	if i == nil || (reflect.ValueOf(i).Kind() == reflect.Ptr && reflect.ValueOf(i).IsNil()) {
-		return
-	}
-	err := json.NewEncoder(w).Encode(i)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	httphelper.MarshalJSON(w, resp)
 }
 
 // ParseAccessTokenRequest parsed the http request into a oidc.AccessTokenRequest
